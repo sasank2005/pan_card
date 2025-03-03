@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Tampering Detection</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+        }
+        input, button {
+            margin: 10px;
+            padding: 10px;
+            font-size: 16px;
+        }
+        #result {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h2>Image Tampering Detection</h2>
+    <form action="/detect" method="post" onsubmit="return handleSubmit(event)">
+        <label for="original_url">Original Image URL:</label>
+        <input type="text" id="original_url" name="original_url" required>
+        <br>
+        <label for="tampered_url">Tampered Image URL:</label>
+        <input type="text" id="tampered_url" name="tampered_url" required>
+        <br>
+        <button type="submit">Detect Tampering</button>
+    </form>
+    <div id="result"></div>
+    <script>
+        async function handleSubmit(event) {
+            event.preventDefault();
+            const form = event.target;
+            const formData = new FormData(form);
+            const response = await fetch(form.action, {
+                method: form.method,
+                body: formData
+            });
+            const result = await response.text();
+            document.getElementById("result").innerText = "Result: " + result;
+        }
+    </script>
+</body>
+</html>
